@@ -1,0 +1,80 @@
+body * {
+    box-sizing:border-box;
+}
+
+#container {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+body {
+  background: #516a85;
+  color: #f0f0f0;
+  font: 18px/28px "Source Code Pro For Powerline", Monaco, Monospace;
+  font-weight: 300;
+}
+
+header {
+    text-align:center;
+}
+
+.comment {
+  display: flex;
+  border-radius: 10px;
+  background: #f0f0f0;
+  margin: 20px 0;
+}
+
+.number-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #AAA;
+    border-radius: 10px 0 0 10px;
+}
+
+.number {
+    width:100px;
+    text-align:center;
+}
+
+.content {
+    flex-shrink: 100;
+    color: #666;
+    padding: 20px;
+}
+
+.signature {
+  font-weight: 700;
+  padding-bottom: 20px;
+}
+
+#comment-content, #comment-author {
+  width: 100%;
+  min-height: 100px;
+  font: 16px/24px"Source Code Pro For Powerline";
+  color: #666;
+  border-radius: 10px;
+  padding: 10px;
+  resize: none;
+}
+
+#comment-author {
+    min-height:44px;
+    width: 689px;
+    display: inline-block;
+    box-shadow: none;
+    border: 0;
+}
+
+span.add-comment {
+    background: #ACA;
+    height: 43px;
+    display: inline-block;
+    /* margin-top: -10px; */
+    padding: 7px;
+    width: 200px;
+    text-align: center;
+    border-radius: 10px;
+    cursor:pointer;
+}
