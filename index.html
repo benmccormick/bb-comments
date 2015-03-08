@@ -3,6 +3,7 @@
 <head>
     <title>Backbone Comments Example</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+
 </head>
 <body>
     <div id="container">
@@ -17,7 +18,7 @@
     Aliquam quis tristique mauris, quis cursus urna. Proin quis mauris rutrum justo ultricies hendrerit sed ut est. Vestibulum ultrices semper risus eget sodales. Curabitur mauris risus, mattis eget semper sodales, sodales sit amet velit. Maecenas efficitur ac tortor vitae hendrerit. Integer venenatis, augue eget tincidunt pulvinar, velit tortor blandit orci, vitae laoreet leo eros at turpis. Cras eleifend quam quis mi pharetra, nec scelerisque ipsum fermentum. Maecenas rutrum, ante nec consectetur semper, tortor nisl dignissim odio, in cursus ipsum nisl non dolor. Cras pharetra scelerisque nunc at dictum. Praesent vulputate mauris a arcu bibendum, ut finibus magna aliquet. Duis vitae venenatis neque. Maecenas pulvinar, ante vitae sagittis finibus, erat sapien luctus metus, ut posuere orci sem in elit. Curabitur tempus metus eget mi eleifend, quis tincidunt massa ullamcorper.
     </p>
     </article>
-    <footer>
+    <footer id="comment-container">
         <h3> Comments </h3>
         <hr>
         <div id="comment-entry">
@@ -29,37 +30,27 @@
         <span class="add-comment">Submit</span>
         </div>
         </div>
-        <div id="comment-area">
-            <div class="comment">
-                <div class="number-wrapper">
-                    <div class="number">1</div>
-                </div>
-                <div class="content">
-                    <div class="signature">
-                        John Smith
-                    </div>
-                    <div class="text">
-                         Sed viverra hendrerit arcu id accumsan. Fusce at purus in purus iaculis tempor. Aliquam in erat et lectus porttitor hendrerit vitae eleifend risus. Pellentesque facilisis ex nulla, vel vehicula tellus pulvinar sit amet. In fermentum, eros ac volutpat hendrerit, lacus nisl lacinia arcu, vitae varius elit libero ut quam. Curabitur bibendum imperdiet libero, eu bibendum tellus mollis ut. Suspendisse potenti. Cras ac justo at velit imperdiet viverra vitae ac sapien. Aliquam a nunc vel mi pulvinar blandit et quis urna. Nulla accumsan consectetur imperdiet. In arcu ex, feugiat scelerisque ornare a, placerat nec libero. Sed tincidunt augue purus, eu pretium elit ornare eu.
-                    </div>
-                </div>
-            </div>
-
-            <div class="comment">
-                <div class="number-wrapper">
-                    <div class="number">2</div>
-                </div>
-                <div class="content">
-                    <div class="signature">
-                        Jane Smith
-                    </div>
-                    <div class="text">
-                         Sed viverra hendrerit arcu id accumsan. Fusce at purus in purus iaculis tempor. Aliquam in erat et lectus porttitor hendrerit vitae eleifend risus. Pellentesque facilisis ex nulla, vel vehicula tellus pulvinar sit amet. In fermentum, eros ac volutpat hendrerit, lacus nisl lacinia arcu, vitae varius elit libero ut quam. Curabitur bibendum imperdiet libero, eu bibendum tellus mollis ut. Suspendisse potenti. Cras ac justo at velit imperdiet viverra vitae ac sapien. Aliquam a nunc vel mi pulvinar blandit et quis urna. Nulla accumsan consectetur imperdiet. In arcu ex, feugiat scelerisque ornare a, placerat nec libero. Sed tincidunt augue purus, eu pretium elit ornare eu.
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <div id="comment-area"></div>
     </footer>
     </div>
+    <script type="text/template" id="comment-template">
+    <div class="comment">
+        <div class="number-wrapper">
+            <div class="number"><%- index %></div>
+        </div>
+        <div class="content">
+            <div class="signature">
+                <%- name %>
+            </div>
+            <div class="text">
+                <%- text %>
+            </div>
+        </div>
+    </div>
+  </script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="bower_components/backbone/backbone.js"></script>
+    <script type="text/javascript" src="app.js"></script>
 </body>
 </html>
