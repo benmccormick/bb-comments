@@ -1,4 +1,7 @@
 (function() {
+
+    //Data Code (Unchanged from 2010)
+
     var Comment = Backbone.Model.extend({
 
         urlRoot: 'http://localhost:5000/comments',
@@ -20,74 +23,84 @@
         }
     });
 
-    var CommentView = Backbone.View.extend({
+    //View Code:  Refactored
 
-        template : _.template($('#comment-template').html()),
-
-        initialize: function(options) {
-            this.index = options.index;
-        },
-
-        render: function() {
-            var data = _.extend({ index: this.index}, this.model.toJSON());
-            this.$el.html(this.template(data));
-            return this;
-        }
-    });
-
-    var CommentContainerView = Backbone.View.extend({
+    var CommentContainerView = Marionette.LayoutView.extend({
 
         el: '#comment-container',
+
+        template: false,
+
+        regions: {
+            'input': '#comment-entry',
+            'comments': '#comment-area'
+        },
+
+        initialize: function() {
+            this.showChildView('input', new CommentInputView({
+                collection: this.collection
+            }));
+            this.showChildView('comments', new CommentListView({
+                collection: this.collection
+            }));
+        },
+
+    });
+
+    var CommentInputView = Marionette.ItemView.extend({
+
+        template: '#input-template',
 
         events: {
             'click .add-comment' : 'addComment'
         },
 
-        render: function() {
-            var $commentArea = $('#comment-area');
-            $commentArea.empty();
-            this.collection.each(function(model, index) {
-                var view = new CommentView({
-                    model: model,
-                    index: index + 1
-                });
-                $commentArea.append(view.render().el);
-            });
-        },
-
         addComment: function() {
-            var $text = $('#comment-content'),
-                $author = $('#comment-author'),
-                text = $text.val(),
-                author = $author.val() || undefined;
+            var text = $('#comment-content').val(),
+                author = $('#comment-author').val() || undefined;
 
             this.collection.add({
                 text: text,
                 name: author
             });
             this.collection.last().save();
-
-            $text.val('');
-            $author.val('');
+            //render to clear the inputs
             this.render();
             window.scrollTo(0, document.body.scrollHeight);
         }
-
     });
 
-    var comments = new CommentList([{
-        name: 'Ben',
-        text: 'test'
-    }, {
-        text: 'test 2'
-    }]);
+    var CommentView = Marionette.ItemView.extend({
+
+        template : '#comment-template',
+
+        templateHelpers: function(options) {
+            return {
+                index: this.options.index
+            };
+        },
+    });
+
+
+    var CommentListView = Marionette.CollectionView.extend({
+
+        childView: CommentView,
+
+        childViewOptions: function(model, index) {
+            return {
+                index: index + 1
+            };
+        }
+    });
+
+    //setup
+
+    var comments = new CommentList();
 
     var commentView = new CommentContainerView({
         collection: comments
     });
-    comments.fetch({
-        success: function() {
-            commentView.render();
-        }
-    });
+
+    comments.fetch();
+    commentView.render();
 })();
