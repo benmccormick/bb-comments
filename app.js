@@ -1,6 +1,8 @@
 (function() {
-
     var Comment = Backbone.Model.extend({
+
+        urlRoot: 'http://localhost:5000/comments',
+
         defaults: {
             text: '',
             name: 'Anonymous'
@@ -8,7 +10,14 @@
     });
 
     var CommentList = Backbone.Collection.extend({
-        model: Comment
+
+        model: Comment,
+
+        url: 'http://localhost:5000/comments',
+
+        parse: function(response, options) {
+            return response.comments;
+        }
     });
 
     var CommentView = Backbone.View.extend({
@@ -56,6 +65,7 @@
                 text: text,
                 name: author
             });
+            this.collection.last().save();
 
             $text.val('');
             $author.val('');
@@ -75,5 +85,9 @@
     var commentView = new CommentContainerView({
         collection: comments
     });
-    commentView.render();
+    comments.fetch({
+        success: function() {
+            commentView.render();
+        }
+    });
 })();
