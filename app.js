@@ -3,20 +3,17 @@
     //Data Code (Unchanged from 2010)
 
     var Comment = Backbone.Model.extend({
-
-        urlRoot: 'http://localhost:5000/comments',
-
         defaults: {
             text: '',
             name: 'Anonymous'
         }
     });
 
-    var CommentList = Backbone.Collection.extend({
+    var CommentList = Backbone.Firebase.Collection.extend({
+
+        url: 'https://intense-torch-2544.firebaseio.com',
 
         model: Comment,
-
-        url: 'http://localhost:5000/comments',
 
         parse: function(response, options) {
             return response.comments;
@@ -51,21 +48,36 @@
 
         template: '#input-template',
 
+        collectionEvents: {
+            'add' : 'render'
+        },
+
+        templateHelpers: function() {
+            return {
+                numComments: this.collection.length
+            };
+        },
+
         events: {
             'click .add-comment' : 'addComment'
         },
 
-        addComment: function() {
-            var text = $('#comment-content').val(),
-                author = $('#comment-author').val() || undefined;
 
-            this.collection.add({
+        addComment: function() {
+            var $text = $('#comment-content'),
+                $author = $('#comment-author'),
+                text = $text.val(),
+                author = $author.val() || undefined;
+
+            this.collection.create({
                 text: text,
                 name: author
             });
-            this.collection.last().save();
-            //render to clear the inputs
-            this.render();
+
+            //clear the inputs
+            $text.val('');
+            $author.val('');
+
             window.scrollTo(0, document.body.scrollHeight);
         }
     });
