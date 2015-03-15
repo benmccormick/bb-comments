@@ -48,8 +48,18 @@
 
         template: '#input-template',
 
+        ui: {
+            text: '#comment-content',
+            author: '#comment-author',
+            add: '.add-comment'
+        },
+
         collectionEvents: {
             'add' : 'render'
+        },
+
+        events: {
+            'click @ui.add' : 'addComment'
         },
 
         templateHelpers: function() {
@@ -58,25 +68,15 @@
             };
         },
 
-        events: {
-            'click .add-comment' : 'addComment'
-        },
-
-
         addComment: function() {
-            var $text = $('#comment-content'),
-                $author = $('#comment-author'),
-                text = $text.val(),
-                author = $author.val() || undefined;
 
             this.collection.create({
-                text: text,
-                name: author
+                text: this.ui.text.val(),
+                name: this.ui.author.val() || undefined
             });
 
             //clear the inputs
-            $text.val('');
-            $author.val('');
+            this.ui.text.add(this.ui.author).val('');
 
             window.scrollTo(0, document.body.scrollHeight);
         }
