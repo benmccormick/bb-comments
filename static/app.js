@@ -44,7 +44,7 @@
 
     });
 
-    var CommentInputView = Marionette.ItemView.extend({
+    var CommentInputView = Marionette.VDOM.ItemView.extend({
 
         template: '#input-template',
 
