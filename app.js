@@ -3,9 +3,6 @@
     //Data Code (Unchanged from 2010)
 
     var Comment = Backbone.Model.extend({
-
-        urlRoot: 'http://localhost:5000/comments',
-
         defaults: {
             text: '',
             name: 'Anonymous'
@@ -51,6 +48,16 @@
 
         template: '#input-template',
 
+        templateHelpers: function() {
+            return {
+                numComments: this.collection.length
+            };
+        },
+
+        collectionEvents: {
+            'sync': 'render'
+        },
+
         events: {
             'click .add-comment' : 'addComment'
         },
@@ -59,11 +66,10 @@
             var text = $('#comment-content').val(),
                 author = $('#comment-author').val() || undefined;
 
-            this.collection.add({
+            this.collection.create({
                 text: text,
                 name: author
             });
-            this.collection.last().save();
             //render to clear the inputs
             this.render();
             window.scrollTo(0, document.body.scrollHeight);
