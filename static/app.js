@@ -48,30 +48,36 @@
 
         template: '#input-template',
 
+        ui: {
+            text: '#comment-content',
+            author: '#comment-author',
+            add: '.add-comment'
+        },
+
+        collectionEvents: {
+            'add' : 'render'
+        },
+
+        events: {
+            'click @ui.add' : 'addComment'
+        },
+
         templateHelpers: function() {
             return {
                 numComments: this.collection.length
             };
         },
 
-        collectionEvents: {
-            'sync': 'render'
-        },
-
-        events: {
-            'click .add-comment' : 'addComment'
-        },
-
         addComment: function() {
-            var text = $('#comment-content').val(),
-                author = $('#comment-author').val() || undefined;
 
             this.collection.create({
-                text: text,
-                name: author
+                text: this.ui.text.val(),
+                name: this.ui.author.val() || undefined
             });
-            //render to clear the inputs
-            this.render();
+
+            //clear the inputs
+            this.ui.text.add(this.ui.author).val('');
+
             window.scrollTo(0, document.body.scrollHeight);
         }
     });
