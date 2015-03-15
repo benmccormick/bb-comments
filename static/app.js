@@ -10,7 +10,7 @@
 
         model: Comment,
 
-        url: 'http://localhost:5000/comments',
+        url: 'comments',
 
         parse: function(response, options) {
             return response.comments;
