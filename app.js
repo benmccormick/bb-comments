@@ -1,8 +1,5 @@
 (function() {
     var Comment = Backbone.Model.extend({
-
-        urlRoot: 'http://localhost:5000/comments',
-
         defaults: {
             text: '',
             name: 'Anonymous'
@@ -61,11 +58,10 @@
                 text = $text.val(),
                 author = $author.val() || undefined;
 
-            this.collection.add({
+            this.collection.create({
                 text: text,
                 name: author
             });
-            this.collection.last().save();
 
             $text.val('');
             $author.val('');
