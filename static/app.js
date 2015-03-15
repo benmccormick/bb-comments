@@ -2,73 +2,78 @@
 
     //Data Code (Unchanged from 2010)
 
-    var Comment = Backbone.Model.extend({
-        defaults: {
-            text: '',
-            name: 'Anonymous'
+    class Comment extends Backbone.Model {
+        defaults() {
+            return {
+                text: '',
+                name: 'Anonymous'
+            };
         }
-    });
+    }
 
-    var CommentList = Backbone.Firebase.Collection.extend({
+    class CommentList extends Backbone.Firebase.Collection {
 
-        url: 'https://intense-torch-2544.firebaseio.com',
-
-        model: Comment,
-
-        parse: function(response, options) {
-            return response.comments;
+        constructor(...args) {
+           this.url = 'https://intense-torch-2544.firebaseio.com';
+           this.model = Comment;
+           super(...args);
         }
-    });
+    }
 
     //View Code:  Refactored
 
-    var CommentContainerView = Marionette.LayoutView.extend({
+    class CommentContainerView extends Marionette.LayoutView {
 
-        el: '#comment-container',
+        constructor(...args) {
+            this.el = '#comment-container';
+            this.template = false;
+            this.regions = {
+                'input': '#comment-entry',
+                'comments': '#comment-area'
+            };
+            super(...args);
+        }
 
-        template: false,
-
-        regions: {
-            'input': '#comment-entry',
-            'comments': '#comment-area'
-        },
-
-        initialize: function() {
+        initialize() {
             this.showChildView('input', new CommentInputView({
                 collection: this.collection
             }));
             this.showChildView('comments', new CommentListView({
                 collection: this.collection
             }));
-        },
+        }
 
-    });
+    }
 
-    var CommentInputView = Marionette.VDOM.ItemView.extend({
+    class CommentInputView extends Marionette.VDOM.ItemView {
 
-        template: '#input-template',
+        constructor(...args) {
+            this.template = '#input-template';
 
-        ui: {
-            text: '#comment-content',
-            author: '#comment-author',
-            add: '.add-comment'
-        },
+            this.ui = {
+                text: '#comment-content',
+                author: '#comment-author',
+                add: '.add-comment'
+            };
 
-        collectionEvents: {
-            'add' : 'render'
-        },
+            this.collectionEvents = {
+                'add' : 'render'
+            };
 
-        events: {
-            'click @ui.add' : 'addComment'
-        },
+            this.events = {
+                'click @ui.add' : 'addComment'
+            };
 
-        templateHelpers: function() {
+            super(...args)
+        }
+
+        templateHelpers() {
             return {
                 numComments: this.collection.length
             };
-        },
+        }
 
-        addComment: function() {
+        addComment() {
 
             this.collection.create({
                 text: this.ui.text.val(),
@@ -80,30 +85,36 @@
 
             window.scrollTo(0, document.body.scrollHeight);
         }
-    });
+    }
 
-    var CommentView = Marionette.ItemView.extend({
+    class CommentView extends Marionette.ItemView {
 
-        template : '#comment-template',
+        constructor(...args) {
+           this.template = '#comment-template';
+           super(...args);
+        }
 
-        templateHelpers: function(options) {
+        templateHelpers(options) {
             return {
                 index: this.options.index
             };
-        },
-    });
+        }
+    }
 
 
-    var CommentListView = Marionette.CollectionView.extend({
+    class CommentListView extends Marionette.CollectionView {
 
-        childView: CommentView,
+        constructor(...args) {
+           this.childView = CommentView;
+           super(...args);
+        }
 
-        childViewOptions: function(model, index) {
+        childViewOptions(model, index) {
             return {
                 index: index + 1
             };
         }
-    });
+    }
 
     //setup
 
@@ -114,5 +125,4 @@
     });
 
     comments.fetch();
-    commentView.render();
 })();
