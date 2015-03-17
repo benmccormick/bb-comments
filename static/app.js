@@ -71,12 +71,7 @@
 
     });
 
-    var comments = new CommentList([{
-        name: 'Ben',
-        text: 'test'
-    }, {
-        text: 'test 2'
-    }]);
+    var comments = new CommentList();
 
     var commentView = new CommentContainerView({
         collection: comments
